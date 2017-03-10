@@ -1,5 +1,8 @@
 FROM gazebo:gzserver7
 
+# This image extends from official gzserver7 image to add a 
+# gazebo user and automatically download gazebo models.
+
 # setup environment
 ENV DEBIAN_FRONTEND noninteractive
 RUN locale-gen en_US.UTF-8
