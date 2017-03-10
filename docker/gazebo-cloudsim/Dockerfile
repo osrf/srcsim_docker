@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     wget \   
     bash-completion \
     sudo \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a user with passwordless sudo

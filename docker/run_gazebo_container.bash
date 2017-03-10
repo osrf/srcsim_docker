@@ -48,17 +48,13 @@ else
   DOCKER_GPU_PARAMS=" --device=/dev/dri:/dev/dri"
 fi
 
-#  --net=gz-network \
-#  --net=host \
-docker run -ti --name ${CONTAINER} \
+sudo docker run -ti --name ${CONTAINER} \
   -v "/etc/localtime:/etc/localtime:ro" \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   $DOCKER_GPU_PARAMS \
   -v "/tmp/.docker.xauth:/tmp/.docker.xauth" \
-  --privileged \
-  --ulimit rtprio=99 \
   -v /dev/log:/dev/log \
   ${IMAGE_NAME} \
   ${COMMAND}
