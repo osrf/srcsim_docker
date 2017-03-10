@@ -84,3 +84,7 @@ Once inside the running docker container, you could for example run:
 ```
 $ gazebo --verbose worlds/pioneer2dx.world
 ```
+
+
+## More Info
+https://hub.docker.com/_/gazebo/

@@ -49,6 +49,7 @@ else
 fi
 
 #  --net=gz-network \
+#  --net=host \
 docker run -ti --name ${CONTAINER} \
   -v "/etc/localtime:/etc/localtime:ro" \
   -e DISPLAY=unix$DISPLAY \
@@ -58,7 +59,6 @@ docker run -ti --name ${CONTAINER} \
   -v "/tmp/.docker.xauth:/tmp/.docker.xauth" \
   --privileged \
   --ulimit rtprio=99 \
-  --net=host \
   -v /dev/log:/dev/log \
   ${IMAGE_NAME} \
   ${COMMAND}
