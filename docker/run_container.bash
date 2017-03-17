@@ -45,10 +45,10 @@ then
     exit -1
   fi
 else
-  DOCKER_GPU_PARAMS=" --device=/dev/dri:/dev/dri"
+  DOCKER_GPU_PARAMS=""
 fi
 
-sudo docker run -ti --name ${CONTAINER} \
+sudo docker run --rm -ti --name ${CONTAINER} \
   -v "/etc/localtime:/etc/localtime:ro" \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
