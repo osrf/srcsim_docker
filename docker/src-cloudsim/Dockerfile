@@ -18,11 +18,10 @@ RUN apt-get update && apt-get install -y \
 # ----------------------------------------------------------------------------------
 
 # Install the srcsim repository, with keys (need wget for this)
-RUN echo "deb http://srcsim.gazebosim.org/src $(lsb_release -cs) main" > /etc/apt/sources.list.d/src-latest.list
-RUN wget -O - http://srcsim.gazebosim.org/src/src.key | apt-key add - \
-    && wget -O - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add -
-
-RUN apt-get update && apt-get install -y \
+RUN echo "deb http://srcsim.gazebosim.org/src $(lsb_release -cs) main" > /etc/apt/sources.list.d/src-latest.list \
+    && wget -O - http://srcsim.gazebosim.org/src/src.key | apt-key add - \
+    && wget -O - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add - \
+    && apt-get update && apt-get install -y \
         srcsim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -36,8 +35,7 @@ RUN update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/jav
 
 # Environment variable needed for synchronized controller
 ENV IS_GAZEBO true
-# TODO: should we set this env var to 127.0.0.1? It is listed with this value here:
-# https://bitbucket.org/osrf/srcsim/wiki/system_setup
+# Consider overriding this ENV var with other IP using the '-e' run command argument
 ENV ROS_IP=127.0.0.1
 
 # Change ownership of ihmc_ros_java_adapter. This ROS package requires to write some
@@ -60,13 +58,6 @@ RUN mkdir -p $HOME/.ihmc \
       > $HOME/.ihmc/IHMCNetworkParameters.ini
 
 # Download deployed controller and gradle cache
-# RUN cd $HOME \
-#     && wget http://gazebosim.org/distributions/srcsim/gradle_cache.tar.gz . \
-#     && tar xvf gradle_cache.tar.gz \
-#     && rm gradle_cache.tar.gz \
-#     && wget http://gazebosim.org/distributions/srcsim/valkyrie_controller.tar.gz . \
-#     && tar xvf valkyrie_controller.tar.gz \
-#     && rm valkyrie_controller.tar.gz
 RUN cd $HOME \
     && wget http://gazebosim.org/distributions/srcsim/valkyrie_controller.tar.gz \
     && tar xvf valkyrie_controller.tar.gz \
