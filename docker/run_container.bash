@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# This script is used to run a built gazebo image and create a running contaier
-# (usually from a built gazebo-cloudsim-nvidia-docker-plugin image).
+# This script is used to run a built image and create a running contaier
+# (usually from a built src-cloudsim image).
 # The script expects 3 arguments:
-# --- 1) The desired container name
-# --- 2) The name of the docker image from which to run the container.
-# --- 3) An optional command to execute in the created container. E.g. /bin/bash 
+# --- 1) The target container name.
+# --- 2) The name of the docker image from which to create and run the container.
+# --- 3) An optional command to execute in the run container. E.g. /bin/bash 
 # Example command line:
-# ./run_gazebo_container.bash gazebo gazebo-cloudsim-nvidia-docker-plugin /bin/bash
+# ./run_container.bash test src-cloudsim /bin/bash
 
 CONTAINER=$1
 IMAGE_NAME=$2

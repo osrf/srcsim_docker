@@ -8,21 +8,18 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 
-# install bootstrap tools
+# Install bootstrap tools
+#     sudo \
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    wget \   
     bash-completion \
-    sudo \
+    wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a user with passwordless sudo
-RUN adduser --gecos "Development User" --disabled-password gazebo
-RUN adduser gazebo sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN echo "export QT_X11_NO_MITSHM=1" >> /home/gazebo/.bashrc
-
-ENV USERNAME gazebo
+# Create a new user called cloudsim. Note: we don't add him to the sudo group
+ENV USERNAME cloudsim
+RUN adduser --gecos "Development User" --disabled-password $USERNAME
+RUN echo "export QT_X11_NO_MITSHM=1" >> /home/$USERNAME/.bashrc
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
