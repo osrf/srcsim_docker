@@ -64,27 +64,31 @@ More information about the plugin: https://github.com/NVIDIA/nvidia-docker/wiki/
 
 
 ## Build
-Now, from the docker directory build the docker images.
+Now, from the docker directory build the docker images, build the main image. 
+This is the one that will be used afterwards:
 ```
-# Note: make sure the 'gazebo-cloudsim/entrypoint.sh' script has +x permissions (chmod +x entrypoint.sh).
+$ ./build-images.sh
 ```
-Then, build the main image. This is the one that will be used afterwards:
-```
-$ ./build-gazebo-cloudsim-with-nvidia-plugin.sh
-```
+This script will create a set of docker images, namely: 
+* gazebo
+* nvidia-gazebo
+* nvidia-gazebo-ros
+* src-cloudsim
+
+Each image is built on top of the others.
 
 ## Run
 Once the image was built, you can run it by:
 ```
-$ ./run_gazebo_container.bash gazebo gazebo-cloudsim-nvidia-docker-plugin /bin/bash
+$ ./run_container.bash gazebo src-cloudsim /bin/bash
 ```
-The run_gazebo_container script will check that you have nvidia-docker-plugin installed and launch the gazebo container. 
+Among other things, the run_container.sh script will check that you have nvidia-docker-plugin installed
+and launch the container with nvidia arguments. 
 
 Once inside the running docker container, you could for example run: 
 ```
 $ gazebo --verbose worlds/pioneer2dx.world
 ```
-
 
 ## More Info
 https://hub.docker.com/_/gazebo/
