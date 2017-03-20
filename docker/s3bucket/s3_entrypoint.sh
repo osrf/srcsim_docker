@@ -5,6 +5,10 @@ set -e
 # 1) .passwd-s3fs. Used by s3fs mount command. Contains a publicKey:privateKey pair.
 # 2) .bucketname-s3fs. Used by this script to find out the name of the S3 bucket to use. 
 
+# first, execute overriden entrypoints from gazebo and ros
+source "/usr/share/gazebo/setup.sh"
+source "/opt/ros/$ROS_DISTRO/setup.bash"
+
 if [ -f $HOME/.passwd-s3fs ]
 then
     chmod 600 $HOME/.passwd-s3fs
