@@ -1,18 +1,23 @@
-FROM src-cloudsim:latest
+FROM ubuntu:trusty
 
-USER root
+# A separate image that helps setup a mount to S3 buckets.
 
 # Instructions based on https://github.com/s3fs-fuse/s3fs-fuse and
 # https://github.com/xueshanf/docker-s3fs/. Consider adding their License notice (MIT)
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     automake \
     autotools-dev \
+    build-essential \
     libcurl4-gnutls-dev \
     libfuse-dev \ 
     libssl-dev \
+    libtool \
     libxml2-dev \
     make \
+    mime-support \
     pkg-config \
+    tar \
+    wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -22,8 +27,8 @@ RUN wget https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.80.tar.gz \
     && rm v1.80.tar.gz \
     && cd /usr/src/s3fs-fuse-1.80 && ./autogen.sh && ./configure --prefix=/usr && make && make install
 
-# Create default mount dir and give w permissions to other users. The cloudsim 
-# user will mount s3 on top of this dir, when the s3_entrypoint is exectuted. 
+# Create default mount dir and give w permissions to other users. This container 
+# will mount s3 on top of this dir, when the s3_entrypoint is exectuted. 
 RUN mkdir /mnt/s3bucket && chmod 777 /mnt/s3bucket
 
 ENV S3_BUCKET_NAME cloudsim_default_bucket
@@ -33,7 +38,5 @@ COPY ./s3_entrypoint.sh /
 COPY ./upload_to_s3.sh /
 RUN chmod 755 /s3_entrypoint.sh /upload_to_s3.sh
 
-USER $USERNAME
-
 ENTRYPOINT ["/s3_entrypoint.sh"]
-CMD ["/bin/bash"]
+CMD ["/upload_to_s3.sh"]

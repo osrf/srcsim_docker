@@ -48,18 +48,13 @@ else
   DOCKER_GPU_PARAMS=""
 fi
 
-# --privileged is needed if we want to use s3fs mounts
 sudo docker run --rm -ti --name ${CONTAINER} \
-  --device=/dev/fuse \
-  --privileged \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
   -v "/etc/localtime:/etc/localtime:ro" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v "/tmp/.docker.xauth:/tmp/.docker.xauth" \
   -v /dev/log:/dev/log \
-  -v ${HOME}/.passwd-s3fs:/home/cloudsim/.passwd-s3fs \
-  -v ${HOME}/.bucketname-s3fs:/home/cloudsim/.bucketname-s3fs \
   ${DOCKER_GPU_PARAMS} \
   ${IMAGE_NAME} \
   ${COMMAND}
