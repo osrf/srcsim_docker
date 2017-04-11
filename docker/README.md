@@ -23,24 +23,22 @@ The system should be restarted again after installing the plugin.
 
 * And you should see output similar to this one:
 
-    ```
-    +-----------------------------------------------------------------------------+
-    | NVIDIA-SMI 367.57                 Driver Version: 367.57                    |
-    |-------------------------------+----------------------+----------------------+
-    | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-    | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-    |===============================+======================+======================|
-    |   0  GeForce GTX 660M    Off  | 0000:01:00.0     N/A |                  N/A |
-    | N/A   48C    P8    N/A /  N/A |    261MiB /  1990MiB |     N/A      Default |
-    +-------------------------------+----------------------+----------------------+
-
-    +-----------------------------------------------------------------------------+
-    | Processes:                                                       GPU Memory |
-    |  GPU       PID  Type  Process name                               Usage      |
-    |=============================================================================|
-    |    0                  Not Supported                                         |
-    +-----------------------------------------------------------------------------+
-    ```
+        +-----------------------------------------------------------------------------+
+        | NVIDIA-SMI 367.57                 Driver Version: 367.57                    |
+        |-------------------------------+----------------------+----------------------+
+        | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+        | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+        |===============================+======================+======================|
+        |   0  GeForce GTX 660M    Off  | 0000:01:00.0     N/A |                  N/A |
+        | N/A   48C    P8    N/A /  N/A |    261MiB /  1990MiB |     N/A      Default |
+        +-------------------------------+----------------------+----------------------+
+    
+        +-----------------------------------------------------------------------------+
+        | Processes:                                                       GPU Memory |
+        |  GPU       PID  Type  Process name                               Usage      |
+        |=============================================================================|
+        |    0                  Not Supported                                         |
+        +-----------------------------------------------------------------------------+
 
 Once the plugin has been used at least once, it should appear in docker info:
 
