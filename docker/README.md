@@ -18,10 +18,9 @@ The system should be restarted again after installing the plugin.
 
 * Test the plugin works:
 
-    ```
-    # Test nvidia-smi
-    $ nvidia-docker run --rm nvidia/cuda nvidia-smi
-    ```
+        # Test nvidia-smi
+        $ nvidia-docker run --rm nvidia/cuda nvidia-smi
+
 * And you should see output similar to this one:
 
     ```
