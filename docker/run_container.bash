@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-# This script is used to run a built image and create a running contaier
+# This script is used to create and run a docker container from an image
 # (usually from a built src-cloudsim image).
 # The script expects 3 arguments:
 # --- 1) The target container name.
 # --- 2) The name of the docker image from which to create and run the container.
-# --- 3) An optional command to execute in the run container. E.g. /bin/bash 
+# --- 3) Optional extra arguments for docker run command. E.g., some extra -v options
+# --- 4) An optional command to execute in the run container. E.g. /bin/bash 
 # Example command line:
-# ./run_container.bash test src-cloudsim /bin/bash
+# ./run_container.bash test src-cloudsim "-v logs:/home/cloudsim/gazebo-logs" /bin/bash
 
 CONTAINER=$1
 IMAGE_NAME=$2
-COMMAND=$3
+DOCKER_EXTRA_ARGS=$3
+COMMAND=$4
 
 # XAUTH=/tmp/.docker.xauth
 # xauth nlist :0 | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
@@ -48,14 +50,15 @@ else
   DOCKER_GPU_PARAMS=""
 fi
 
-sudo docker run --rm -ti --name ${CONTAINER} \
-  -v "/etc/localtime:/etc/localtime:ro" \
+docker run --rm --name ${CONTAINER} \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
+  -v "/etc/localtime:/etc/localtime:ro" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  $DOCKER_GPU_PARAMS \
   -v "/tmp/.docker.xauth:/tmp/.docker.xauth" \
   -v /dev/log:/dev/log \
+  --ulimit rtprio=99 \
+  ${DOCKER_EXTRA_ARGS} \
+  ${DOCKER_GPU_PARAMS} \
   ${IMAGE_NAME} \
   ${COMMAND}
-
