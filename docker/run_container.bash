@@ -57,6 +57,7 @@ docker run --rm --name ${CONTAINER} \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v "/tmp/.docker.xauth:/tmp/.docker.xauth" \
   -v /dev/log:/dev/log \
+  --ulimit rtprio=99 \
   ${DOCKER_EXTRA_ARGS} \
   ${DOCKER_GPU_PARAMS} \
   ${IMAGE_NAME} \
