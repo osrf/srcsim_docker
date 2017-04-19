@@ -68,3 +68,5 @@ RUN . /opt/nasa/indigo/setup.sh \
     && roslaunch ihmc_valkyrie_ros valkyrie_warmup_gradle_cache.launch
 
 RUN mkdir -p $HOME/gazebo-logs
+
+ENTRYPOINT ["/src_entrypoint.sh"]
