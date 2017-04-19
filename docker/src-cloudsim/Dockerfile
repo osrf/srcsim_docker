@@ -49,6 +49,10 @@ RUN groupadd ros \
     && adduser $USERNAME ros \
     && echo "@ros    -       rtprio      99" > /etc/security/limits.d/ros-rtprio.conf
 
+# setup entrypoint
+COPY ./src_entrypoint.sh /
+RUN chmod 755 /src_entrypoint.sh
+
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
