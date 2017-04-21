@@ -3,7 +3,7 @@ FROM ubuntu:trusty
 # A separate image that helps setup a mount to S3 buckets.
 
 # Instructions based on https://github.com/s3fs-fuse/s3fs-fuse and
-# https://github.com/xueshanf/docker-s3fs/. Consider adding their License notice (MIT)
+# https://github.com/xueshanf/docker-s3fs/.
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
     automake \
     autotools-dev \
