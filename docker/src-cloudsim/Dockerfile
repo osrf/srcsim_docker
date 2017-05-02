@@ -67,9 +67,31 @@ RUN cd $HOME \
     && tar xvf valkyrie_controller.tar.gz \
     && rm valkyrie_controller.tar.gz
 
+# Build srcsim from source
+# These are needed to have add-apt-repository command
+RUN apt-get update \
+ && apt-get install -y \
+    python-catkin-tools \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV WS $HOME/ws
+RUN mkdir -p ${WS}/src
+WORKDIR ${WS}/src
+RUN hg clone https://bitbucket.org/osrf/srcsim \
+ && cd ${WS} \
+ && . /opt/nasa/indigo/setup.sh \
+ && catkin init \
+ && catkin config --install \
+ && cd ${WS}/src/srcsim \
+ && hg pull \
+ && hg up default \
+ && catkin build
+
 # Pre-build ihmc_ros_java_adapter
-RUN . /opt/nasa/indigo/setup.sh \
-    && roslaunch ihmc_valkyrie_ros valkyrie_warmup_gradle_cache.launch
+#RUN . /opt/nasa/indigo/setup.sh \
+RUN . ${WS}/install/setup.sh \
+ && roslaunch ihmc_valkyrie_ros valkyrie_warmup_gradle_cache.launch
 
 RUN mkdir -p $HOME/gazebo-logs
 
