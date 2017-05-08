@@ -52,7 +52,7 @@ fi
 
 DISPLAY="${DISPLAY:-:0}"
 
-docker run --rm --name ${CONTAINER} \
+docker run --name ${CONTAINER} \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
   -v "/etc/localtime:/etc/localtime:ro" \
