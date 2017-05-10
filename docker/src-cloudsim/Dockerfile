@@ -22,7 +22,14 @@ RUN echo "deb http://srcsim.gazebosim.org/src $(lsb_release -cs) main" > /etc/ap
     && wget -O - http://srcsim.gazebosim.org/src/src.key | apt-key add - \
     && wget -O - https://bintray.com/user/downloadSubjectPublicKey?username=bintray | apt-key add - \
     && apt-get update && apt-get install -y \
+        bash-completion \
+        libtinyxml2-dev \
+        meld \
+        python-catkin-tools \
+        python-vcstool \
+        ros-indigo-joint-limits-interface \
         srcsim \
+        vim-gnome \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -55,6 +62,29 @@ RUN chmod 755 /src_entrypoint.sh
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
+
+# Catkin workspace
+ENV WS /home/$USERNAME/ws
+WORKDIR ${WS}
+RUN mkdir -p ${WS}/src \
+ && cd ${WS}/src \
+ && hg clone https://bitbucket.org/osrf/gazebo \
+ && curl https://bitbucket.org/scpeters/unix-stuff/raw/master/package_xml/package_gazebo.xml > gazebo/package.xml
+
+# change gazebo branch using the next line without recloning the whole thing
+RUN cd ${WS}/src/gazebo \
+ && hg pull \
+ && hg up gazebo7
+
+# don't build srcsim yet, wait until val_gazebo is cloned
+RUN touch ${WS}/src/srcsim/CATKIN_IGNORE
+
+# build catkin workspace
+RUN catkin init \
+ && catkin config --install \
+ && catkin config --cmake-args -DENABLE_TESTS_COMPILATION:BOOL=False \
+ && . /opt/nasa/indigo/setup.sh \
+ && catkin build -i
 
 # Copy IHMC networking ini file
 RUN mkdir -p $HOME/.ihmc \
