@@ -9,7 +9,7 @@ source "/opt/ros/$ROS_DISTRO/setup.bash"
 
 # setup SRC environment
 source "/opt/nasa/indigo/setup.bash"
-source "home/root/ws/install/setup.bash"
+source "/home/cloudsim/ws/install/setup.bash"
 echo "SRC entrypoint executed"
 
 exec "$@"

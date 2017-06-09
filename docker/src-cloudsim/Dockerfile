@@ -49,6 +49,15 @@ RUN groupadd ros \
     && adduser $USERNAME ros \
     && echo "@ros    -       rtprio      99" > /etc/security/limits.d/ros-rtprio.conf
 
+# Build srcsim from source
+# These are needed to have add-apt-repository command
+RUN apt-get update \
+ && apt-get install -y \
+    libgazebo7-dev \
+    python-catkin-tools \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 # setup entrypoint
 COPY ./src_entrypoint.sh /
 RUN chmod 755 /src_entrypoint.sh
@@ -67,15 +76,7 @@ RUN cd $HOME \
     && tar xvf valkyrie_controller.tar.gz \
     && rm valkyrie_controller.tar.gz
 
-# Build srcsim from source
-# These are needed to have add-apt-repository command
-RUN apt-get update \
- && apt-get install -y \
-    python-catkin-tools \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-ENV WS $HOME/ws
+ENV WS /home/$USERNAME/ws
 RUN mkdir -p ${WS}/src
 WORKDIR ${WS}/src
 RUN hg clone https://bitbucket.org/osrf/srcsim \
