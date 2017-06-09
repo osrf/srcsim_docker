@@ -50,7 +50,9 @@ else
   DOCKER_GPU_PARAMS=""
 fi
 
-docker run --rm --name ${CONTAINER} \
+DISPLAY="${DISPLAY:-:0}"
+
+docker run --name ${CONTAINER} \
   -e DISPLAY=unix$DISPLAY \
   -e XAUTHORITY=/tmp/.docker.xauth \
   -v "/etc/localtime:/etc/localtime:ro" \
